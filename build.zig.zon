@@ -4,8 +4,8 @@
 
     .dependencies = .{
         .libuv = .{
-            .url = "https://github.com/farey0/CLibuv-zig/archive/refs/tags/v1.47.0-alpha2.tar.gz",
-            .hash = "1220c858c921e19068a7076ab09fb6faa9d522320af354d55864077cce01271c8b61",
+            .url = "../CLibuv-zig/",
+            .hash = "1220104308ffdde65b4c54a010b96bc2022faeef125108d77212ceb0e7d4e4601e56",
         },
     },
     .paths = .{

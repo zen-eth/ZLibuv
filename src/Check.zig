@@ -44,7 +44,7 @@ pub fn FromHandle(handle: Handle) error{WrongHandleType}!*Self {
     return if (handle.GetType() != .Check)
         error.WrongHandleType
     else
-        @fieldParentPtr(Self, "cCheck", @as(*c.Check, @ptrCast(handle.cHandle)));
+        @fieldParentPtr("cCheck", @as(*c.Check, @ptrCast(handle.cHandle)));
 }
 
 //  ----------------      Private     ----------------
@@ -52,7 +52,7 @@ pub fn FromHandle(handle: Handle) error{WrongHandleType}!*Self {
 fn callbackHandler(comptime callback: Callback) type {
     return struct {
         pub fn native(cCheck: *c.Check) callconv(.C) void {
-            const Check: *Self = @fieldParentPtr(Self, "cCheck", cCheck);
+            const Check: *Self = @fieldParentPtr("cCheck", cCheck);
 
             callback(Check);
         }

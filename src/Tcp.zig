@@ -111,7 +111,7 @@ pub fn GetPeerAddress(self: *Self) Error!SocketAddress {
 }
 
 pub fn FromStream(stream: Stream) *Self {
-    return @fieldParentPtr(Self, "cTcp", @as(*c.Tcp, @ptrCast(stream.cStream)));
+    return @fieldParentPtr("cTcp", @as(*c.Tcp, @ptrCast(stream.cStream)));
 }
 
 pub fn GetStream(self: *Self) Stream {

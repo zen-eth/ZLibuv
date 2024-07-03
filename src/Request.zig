@@ -19,7 +19,7 @@ pub const Connect = struct {
     }
 
     pub fn FromBase(base: Base) *Self {
-        return @fieldParentPtr(Self, "cReq", @as(*c.ConnectT, @ptrCast(base.cReq)));
+        return @fieldParentPtr("cReq", @as(*c.ConnectT, @ptrCast(base.cReq)));
     }
 };
 
@@ -35,7 +35,7 @@ pub const Shutdown = struct {
     }
 
     pub fn FromBase(base: Base) *Self {
-        return @fieldParentPtr(Self, "cReq", @as(*c.ShutdownT, @ptrCast(base.cReq)));
+        return @fieldParentPtr("cReq", @as(*c.ShutdownT, @ptrCast(base.cReq)));
     }
 };
 
@@ -51,6 +51,6 @@ pub const Write = struct {
     }
 
     pub fn FromBase(base: Base) *Self {
-        return @fieldParentPtr(Self, "cReq", @as(*c.WriteT, @ptrCast(base.cReq)));
+        return @fieldParentPtr("cReq", @as(*c.WriteT, @ptrCast(base.cReq)));
     }
 };

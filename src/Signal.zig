@@ -62,7 +62,7 @@ pub fn FromHandle(handle: Handle) error{WrongHandleType}!*Self {
     return if (handle.GetType() != .Signal)
         error.WrongHandleType
     else
-        @fieldParentPtr(Self, "cSignal", @as(*c.Signal, @ptrCast(handle.cHandle)));
+        @fieldParentPtr("cSignal", @as(*c.Signal, @ptrCast(handle.cHandle)));
 }
 
 //  ----------------      Private     ----------------
@@ -70,7 +70,7 @@ pub fn FromHandle(handle: Handle) error{WrongHandleType}!*Self {
 fn callbackHandler(comptime callback: Callback) type {
     return struct {
         pub fn native(cSignal: *c.Signal, sigNum: c_int) callconv(.C) void {
-            const signal: *Self = @fieldParentPtr(Self, "cSignal", cSignal);
+            const signal: *Self = @fieldParentPtr("cSignal", cSignal);
 
             callback(signal, @enumFromInt(sigNum));
         }

@@ -44,7 +44,7 @@ pub fn FromHandle(handle: Handle) error{WrongHandleType}!*Self {
     return if (handle.GetType() != .Prepare)
         error.WrongHandleType
     else
-        @fieldParentPtr(Self, "cPrepare", @as(*c.Prepare, @ptrCast(handle.cHandle)));
+        @fieldParentPtr("cPrepare", @as(*c.Prepare, @ptrCast(handle.cHandle)));
 }
 
 //  ----------------      Private     ----------------
@@ -52,7 +52,7 @@ pub fn FromHandle(handle: Handle) error{WrongHandleType}!*Self {
 fn callbackHandler(comptime callback: Callback) type {
     return struct {
         pub fn native(cPrepare: *c.Prepare) callconv(.C) void {
-            const prepare: *Self = @fieldParentPtr(Self, "cPrepare", cPrepare);
+            const prepare: *Self = @fieldParentPtr("cPrepare", cPrepare);
 
             callback(prepare);
         }

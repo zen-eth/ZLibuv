@@ -18,7 +18,7 @@ pub fn build(b: *std.Build) void {
 
     const exe = b.addExecutable(.{
         .name = "ZLibuv",
-        .root_source_file = .{ .path = "main.zig" },
+        .root_source_file = .{ .cwd_relative = "main.zig" },
         .target = target,
         .optimize = optimize,
     });
@@ -26,17 +26,17 @@ pub fn build(b: *std.Build) void {
     const ZLibuv = b.addModule(
         "ZLibuv",
         .{
-            .root_source_file = .{ .path = "Libuv.zig" },
+            .root_source_file = .{ .cwd_relative = "Libuv.zig" },
             .target = target,
             .optimize = optimize,
             .imports = &.{.{ .name = "c", .module = cLibuv }},
         },
     );
 
-    //libuvCLib.artifact("libuv").step.dependOn(&translatedHeader.step);
     ZLibuv.linkLibrary(libuvCLib.artifact("libuv"));
 
     exe.root_module.addImport("ZLibuv", ZLibuv);
+    exe.step.dependOn(&libuvCLib.artifact("libuv").step);
 
     b.installArtifact(exe);
 }

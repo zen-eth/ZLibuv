@@ -52,7 +52,7 @@ pub fn GetSize(t: Type) usize {
 }
 
 pub fn GetLoop(self: Self) *Loop {
-    return @fieldParentPtr(Loop, "cLoop", self.cHandle.loop);
+    return @fieldParentPtr("cLoop", self.cHandle.loop);
 }
 
 pub fn GetType(self: Self) Type {

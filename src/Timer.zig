@@ -37,7 +37,7 @@ pub fn FromHandle(handle: Handle) error{WrongHandleType}!*Self {
     return if (handle.GetType() != .Timer)
         error.WrongHandleType
     else
-        @fieldParentPtr(Self, "cTimer", @as(*c.Timer, @ptrCast(handle.cHandle)));
+        @fieldParentPtr("cTimer", @as(*c.Timer, @ptrCast(handle.cHandle)));
 }
 
 pub fn Start(self: *Self, comptime callback: TimerCallback, timeout: u64, repeat: u64) Error!void {
@@ -80,9 +80,9 @@ pub fn GetDueIn(self: *Self) u64 {
 fn callbackHandler(comptime callback: TimerCallback) type {
     return struct {
         pub fn native(cTimer: [*c]c.Timer) callconv(.C) void {
-            const timer: *Self = @fieldParentPtr(Self, "cTimer", cTimer);
+            const timer: ?*Self = @fieldParentPtr("cTimer", cTimer);
 
-            callback(timer);
+            callback(timer.?);
         }
     };
 }
