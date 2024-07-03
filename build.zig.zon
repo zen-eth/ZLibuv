@@ -1,0 +1,17 @@
+.{
+    .name = "ZLibuv",
+    .version = "0.0.1",
+
+    .dependencies = .{
+        .libuv = .{
+            .url = "https://github.com/farey0/CLibuv-zig/archive/refs/tags/v1.47.0-alpha2.tar.gz",
+            .hash = "1220c858c921e19068a7076ab09fb6faa9d522320af354d55864077cce01271c8b61",
+        },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "Libuv.zig",
+        "src/",
+    },
+}
