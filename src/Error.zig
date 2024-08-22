@@ -28,12 +28,13 @@ pub fn GetLastUnexpected() VanillaError {
 }
 
 fn FireUnexpectedError(errCode: c_int) UnexpectedError {
+    lastUnexpected = @enumFromInt(errCode);
+
     if (logUnexpectedError) {
-        std.debug.print("error.Unexpected {d}\n", .{errCode});
+        std.debug.print("error.Unexpected {d} | {s}\n", .{ errCode, @tagName(lastUnexpected) });
         std.debug.dumpCurrentStackTrace(@returnAddress());
     }
 
-    lastUnexpected = @enumFromInt(errCode);
     return error.Unexpected;
 }
 

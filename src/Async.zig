@@ -46,7 +46,7 @@ pub fn FromHandle(handle: Handle) error{WrongHandleType}!*Self {
     return if (handle.GetType() != .Async)
         error.WrongHandleType
     else
-        @fieldParentPtr(Self, "cAsync", @as(*c.Async, @ptrCast(handle.cHandle)));
+        @as(?*Self, @fieldParentPtr("cAsync", @as(*c.Async, @ptrCast(handle.cHandle)))).?;
 }
 
 //  ----------------      Private     ----------------
@@ -54,9 +54,9 @@ pub fn FromHandle(handle: Handle) error{WrongHandleType}!*Self {
 fn callbackHandler(comptime callback: Callback) type {
     return struct {
         pub fn native(cAsync: *c.Async) callconv(.C) void {
-            const Async: *Self = @fieldParentPtr(Self, "cAsync", cAsync);
+            const Async: ?*Self = @fieldParentPtr("cAsync", cAsync);
 
-            callback(Async);
+            callback(Async.?);
         }
     };
 }

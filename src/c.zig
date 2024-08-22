@@ -122,7 +122,9 @@ pub const LoopConfigure = c.uv_loop_configure;
 pub const LoopClose = c.uv_loop_close;
 pub const DefaultLoop = c.uv_default_loop;
 
-pub const RunMode = enum(c_uint) {
+const RunModeType = if (@import("builtin").abi == .msvc) c_int else c_uint;
+
+pub const RunMode = enum(RunModeType) {
     Default = c.UV_RUN_DEFAULT,
     Once = c.UV_RUN_ONCE,
     NoWait = c.UV_RUN_NOWAIT,

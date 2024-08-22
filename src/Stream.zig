@@ -152,7 +152,7 @@ pub fn CBHandlerShutdown(comptime callback: Callback.Shutdown) type {
     return struct {
         pub fn native(cReq: [*c]c.ShutdownT, status: c_int) callconv(.C) void {
             callback(
-                @fieldParentPtr("cReq", cReq),
+                @as(?*Request.Shutdown, @fieldParentPtr("cReq", cReq)).?,
                 if (status == 0) null else HandleError(status),
             );
         }
@@ -163,7 +163,7 @@ pub fn CBHandlerWrite(comptime callback: Callback.Write) type {
     return struct {
         pub fn native(cReq: [*c]c.WriteT, status: c_int) callconv(.C) void {
             callback(
-                @fieldParentPtr("cReq", cReq),
+                @as(?*Request.Write, @fieldParentPtr("cReq", cReq)).?,
                 if (status == 0) null else HandleError(status),
             );
         }
@@ -174,7 +174,7 @@ pub fn CBHandlerConnect(comptime callback: Callback.Connect) type {
     return struct {
         pub fn native(cReq: [*c]c.ConnectT, status: c_int) callconv(.C) void {
             callback(
-                @fieldParentPtr("cReq", cReq),
+                @as(?*Request.Connect, @fieldParentPtr("cReq", cReq)).?,
                 if (status == 0) null else HandleError(status),
             );
         }
