@@ -25,20 +25,19 @@ pub const Callback = struct {
     pub const Connection = fn (Self, ?Error) void;
 };
 
-pub const Buffer = struct {
-    cBuf: c.Buffer = .{},
+pub const Buffer = extern struct {
+    base: [*c]u8 = @import("std").mem.zeroes([*c]u8),
+    len: usize = @import("std").mem.zeroes(usize),
 
     pub fn FromSlice(slice: []const u8) Buffer {
         return .{
-            .cBuf = .{
-                .base = @ptrCast(@constCast(slice.ptr)),
-                .len = @intCast(slice.len),
-            },
+            .base = @ptrCast(@constCast(slice.ptr)),
+            .len = @intCast(slice.len),
         };
     }
 
     pub fn ToSlice(buffer: Buffer) error{Invalid}![]u8 {
-        return if (buffer.cBuf.base != null) buffer.cBuf.base[0..buffer.cBuf.len] else error.Invalid;
+        return if (buffer.base != null) buffer.base[0..buffer.len] else error.Invalid;
     }
 };
 
@@ -96,16 +95,10 @@ pub fn ReadStop(self: Self) void {
 }
 
 pub fn Write(self: Self, req: *Request.Write, bufs: []Buffer, writeCb: Callback.Write) Error!void {
-    var buffers: [20][*c]const c.Buffer = undefined;
-
-    for (bufs, 0..) |buf, i| {
-        buffers[i] = &buf.cBuf;
-    }
-
     const ret = c.Write(
         &req.cReq,
         self.cStream,
-        @ptrCast(&buffers),
+        @ptrCast(bufs.ptr),
         @intCast(bufs.len),
         &CBHandlerWrite(writeCb).native,
     );
