@@ -1,1 +1,1 @@
-zig fetch --save=libuv https://github.com/farey0/libuv-build-zig/archive/refs/heads/main.tar.gz
+zig fetch --save=libuv https://github.com/farey0/CLibuv-zig/archive/refs/heads/main.zip

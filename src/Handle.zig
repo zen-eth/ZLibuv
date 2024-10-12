@@ -64,7 +64,7 @@ pub fn GetData(self: Self, comptime T: type) *T {
 }
 
 pub fn SetData(self: Self, value: anytype) void {
-    if (@typeInfo(@TypeOf(value)) != .Pointer)
+    if (@typeInfo(@TypeOf(value)) != .pointer)
         @compileError("value must a pointer");
 
     self.cHandle.data = @ptrCast(value);

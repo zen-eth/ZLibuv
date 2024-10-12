@@ -11,13 +11,6 @@ pub fn build(b: *std.Build) void {
 
     const cLibuv = libuvCLib.module("cLibuv");
 
-    const exe = b.addExecutable(.{
-        .name = "ZLibuv",
-        .root_source_file = b.path("main.zig"),
-        .target = target,
-        .optimize = optimize,
-    });
-
     const ZLibuv = b.addModule(
         "ZLibuv",
         .{
@@ -28,7 +21,16 @@ pub fn build(b: *std.Build) void {
         },
     );
 
-    exe.root_module.addImport("ZLibuv", ZLibuv);
+    const ZLibuvUnitTests = b.addTest(.{
+        .root_source_file = b.path("src/Test.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
 
-    b.installArtifact(exe);
+    ZLibuvUnitTests.root_module.addImport("ZLibuv", ZLibuv);
+
+    const UnitTestRun = b.addRunArtifact(ZLibuvUnitTests);
+
+    const TestStep = b.step("test", "Run unit tests");
+    TestStep.dependOn(&UnitTestRun.step);
 }
