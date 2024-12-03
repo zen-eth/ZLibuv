@@ -44,7 +44,7 @@ pub fn Bind(self: *Self, socketAddr: *const SocketAddress, ipv6Only: bool) Error
 }
 
 pub fn Connect(self: *Self, conReq: *Request.Connect, sockAddr: *SocketAddress, comptime callback: Stream.Callback.Connect) Error!void {
-    const ret = c.TcpConnect(&conReq.cReq, &self.cTcp, &sockAddr.cSocketAddress, Stream.CBHandlerConnect(callback).native);
+    const ret = c.TcpConnect(&conReq.cReq, &self.cTcp, @ptrCast(&sockAddr.cSocketAddress), Stream.CBHandlerConnect(callback).native);
 
     if (ret < 0)
         return HandleError(ret);
